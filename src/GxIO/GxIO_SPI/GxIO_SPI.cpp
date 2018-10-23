@@ -48,10 +48,9 @@ void GxIO_SPI::init()
     pinMode(_bl, OUTPUT);
   }
   reset();
-  IOSPI.begin();
+  setFrequency(GxIO_SPI_defaultFrequency);
   IOSPI.setDataMode(SPI_MODE0);
   IOSPI.setBitOrder(MSBFIRST);
-  setFrequency(GxIO_SPI_defaultFrequency);
 }
 
 void GxIO_SPI::setFrequency(uint32_t freq)
@@ -63,6 +62,7 @@ void GxIO_SPI::setFrequency(uint32_t freq)
   SPISettings settings(freq, MSBFIRST, SPI_MODE0);
   IOSPI.beginTransaction(settings);
   IOSPI.endTransaction();
+  IOSPI.begin();
 #elif defined(ARDUINO_ARCH_STM32F1)|| defined(ARDUINO_ARCH_STM32F4)
 #if defined(SPI_SPEED_CLOCK_DIV2_MHZ)
   // STM32F1xx Boards
